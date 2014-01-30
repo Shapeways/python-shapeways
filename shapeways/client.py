@@ -32,7 +32,10 @@ class Client(object):
         "base_url", "api_version", "consumer_key", "consumer_secret",
         "oauth_token", "oauth_secret", "oauth", "callback_url",
     ]
-    def __init__(self, consumer_key, consumer_secret, callback_url=None):
+    def __init__(
+            self, consumer_key, consumer_secret, callback_url=None,
+            oauth_token=None, oauth_secret=None
+    ):
         """Constructor for a new :class:`shapeways.client.Client`
 
         :param consumer_key: The API key for your app
@@ -42,16 +45,27 @@ class Client(object):
         :param callback_url: The url that should be redirected to after
             successful authentication with Shapeways OAuth
         :type callback_url: str
+        :param oauth_token: The OAuth token obtained from calls
+            to connect/verify
+        :type oauth_token: str
+        :param oauth_secret: The OAuth secret obtained from calls
+            to connect/verify
+        :type oauth_secret: str
+
         """
         self.consumer_key = consumer_key
         self.consumer_secret = consumer_secret
         self.callback_url = callback_url
         self.base_url = "https://api.shapeways.com"
         self.api_version = "v1"
+        self.oauth_token = oauth_token
+        self.oauth_secret = oauth_secret
         self.oauth = OAuth1(
             self.consumer_key,
             client_secret=consumer_secret,
             callback_uri=self.callback_url,
+            resource_owner_key=self.oauth_token,
+            resource_owner_secret=self.oauth_secret,
         )
 
     def url(self, path):
