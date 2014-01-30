@@ -11,8 +11,7 @@ Contents:
 Documentation
 -------------
 
-The documentation can be found in the ``/docs`` directory in this
-repository and should be fairly complete for the codebase.
+Documentation can be found at `ReadTheDocs <http://python-shapeways.readthedocs.org>`_.
 
 Building Documentation
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -21,8 +20,8 @@ Once built the docs can be accessed from ``/docs/_build/html/index.html``
 
 .. code:: bash
 
-    git clone git://github.com/Shapeways/shapeways-api.git
-    cd shapeways-api/python
+    git clone git://github.com/Shapeways/python-shapeways.git
+    cd python-shapeways
     make docs
 
 

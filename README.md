@@ -9,8 +9,8 @@ Right now python-shapeways is not registered with pypi so git must be used to in
 
 ### Git
 ```bash
-git clone git://github.com/Shapeways/shapeways-api.git
-cd ./shapeways-api/python
+git clone git://github.com/Shapeways/python-shapeways.git
+cd ./python-shapeways
 make install
 
 # or
@@ -21,11 +21,13 @@ python setup.py install
 
 ## API
 
+The Latest documentation can be found at [ReadTheDocs](http://pyton-shapeways.readthedocs.org).
+
 Build the sphinx documentation from the `docs` directory.
 
 ```bash
-git clone git://github.com/Shapeways/shapeways-api.git
-cd ./shapeways-api/python
+git clone git://github.com/Shapeways/python-shapeways.git
+cd ./python-shapeways
 make docs
 ```
 
@@ -33,11 +35,6 @@ Open `docs/_build/html/index.html` in a web browser to view documentation.
 
 ## Examples
 See `examples` directory.
-
-## TODO
-- [ ] Setup Travis Build
-- [ ] Setup Coveralls
-- [ ] Add Flask Example
 
 ## License
 ```
