@@ -17,7 +17,6 @@ test-cov:
 
 test-coveralls:
 	@py.test --cov shapeways --cov-report term-missing shapeways/tests
-	@coveralls
 
 docs:
 	@pip install -r docs-requirements.txt
