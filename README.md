@@ -1,6 +1,9 @@
 Python Shapeways
 ================
 
+[![Build Status](https://travis-ci.org/Shapeways/python-shapeways.png?branch=master)](https://travis-ci.org/Shapeways/python-shapeways)
+[![Coverage Status](https://coveralls.io/repos/Shapeways/python-shapeways/badge.png?branch=master)](https://coveralls.io/r/Shapeways/python-shapeways?branch=master)
+
 Python module for interacting with the [Shapeways](http://www.shapeways.com) api [http://developers.shapeways.com](http://developers.shapeways.com).
 
 ## Installation

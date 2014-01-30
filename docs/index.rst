@@ -8,6 +8,12 @@ Contents:
 
    client
 
+.. image:: https://travis-ci.org/Shapeways/python-shapeways.png?branch=master
+           :target: https://travis-ci.org/Shapeways/python-shapeways
+
+.. image:: https://coveralls.io/repos/Shapeways/python-shapeways/badge.png?branch=master
+           :target: https://coveralls.io/r/Shapeways/python-shapeways?branch=master
+
 Documentation
 -------------
 
