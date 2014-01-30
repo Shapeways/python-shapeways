@@ -14,6 +14,13 @@ Contents:
 .. image:: https://coveralls.io/repos/Shapeways/python-shapeways/badge.png?branch=master
            :target: https://coveralls.io/r/Shapeways/python-shapeways?branch=master
 
+Installing
+----------
+
+.. code:: bash
+
+   pip install shapeways
+
 Documentation
 -------------
 
