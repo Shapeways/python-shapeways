@@ -1,7 +1,7 @@
 Python Shapeways
 ================
 
-Python module for interacting with the [Shapeways](http://www.shapeways.com) api (http://developers.shapeways.com)[http://developers.shapeways.com].
+Python module for interacting with the [Shapeways](http://www.shapeways.com) api [http://developers.shapeways.com](http://developers.shapeways.com).
 
 ## Installation
 ### PIP
