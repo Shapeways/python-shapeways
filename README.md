@@ -10,6 +10,10 @@ Python module for interacting with the [Shapeways](http://www.shapeways.com) api
 ### PIP
 Right now python-shapeways is not registered with pypi so git must be used to install
 
+```bash
+pip install https://github.com/Shapeways/python-shapeways/archive/v1.0.0.tar.gz
+```
+
 ### Git
 ```bash
 git clone git://github.com/Shapeways/python-shapeways.git
