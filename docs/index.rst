@@ -38,6 +38,13 @@ Once built the docs can be accessed from ``/docs/_build/html/index.html``
     make docs
 
 
+Versions before 1.0.0
+---------------------
+
+The original client was written and maintained by @pauldw for information about versions earlier
+than v1.0.0 please visit `https://github.com/pauldw/shapeways-python <https://github.com/pauldw/shapeways-python>`_
+
+
 Indices and tables
 ==================
 

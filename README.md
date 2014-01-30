@@ -41,6 +41,11 @@ Open `docs/_build/html/index.html` in a web browser to view documentation.
 ## Examples
 See `examples` directory.
 
+## Versions before 1.0.0
+
+The original client was written and maintained by @pauldw for information about versions earlier
+than v1.0.0 please visit [https://github.com/pauldw/shapeways-python](https://github.com/pauldw/shapeways-python)
+
 ## License
 ```
 The MIT License (MIT) Copyright (c) 2014 Shapeways <api@shapeways.com> (http://developers.shapeways.com)
