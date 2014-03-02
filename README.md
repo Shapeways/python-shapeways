@@ -3,6 +3,9 @@ Python Shapeways
 
 [![Build Status](https://travis-ci.org/Shapeways/python-shapeways.png?branch=master)](https://travis-ci.org/Shapeways/python-shapeways)
 [![Coverage Status](https://coveralls.io/repos/Shapeways/python-shapeways/badge.png?branch=master)](https://coveralls.io/r/Shapeways/python-shapeways?branch=master)
+[![PyPI version](https://badge.fury.io/py/shapeways.png)](http://badge.fury.io/py/shapeways)
+[![Shapeways API Version](http://b.repl.ca/v1/shapeways--api-v1-brightgreen.png)](https://developers.shapeways.com/docs)
+
 
 Python module for interacting with the [Shapeways](http://www.shapeways.com) api [http://developers.shapeways.com](http://developers.shapeways.com).
 
