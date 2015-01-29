@@ -29,7 +29,7 @@ python setup.py install
 
 ## API
 
-The Latest documentation can be found at [ReadTheDocs](http://pyton-shapeways.readthedocs.org).
+The Latest documentation can be found at [ReadTheDocs](http://python-shapeways.readthedocs.org).
 
 Build the sphinx documentation from the `docs` directory.
 
