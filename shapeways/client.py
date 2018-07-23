@@ -1,7 +1,11 @@
-from urllib import urlencode
-from urlparse import parse_qs
-import json
+import sys
+if sys.version_info[0] >= 3:
+    from urllib.parse import urlencode, parse_qs
+else:
+    from urllib import urlencode
+    from urlparse import parse_qs
 
+import json
 from requests_oauthlib import OAuth1
 import requests
 
