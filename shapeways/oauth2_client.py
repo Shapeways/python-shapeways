@@ -39,6 +39,7 @@ class ShapewaysOauth2Client():
         }
 
         response = requests.post(url=self.api_url + AUTH_URL, data=auth_post_data, auth=(client_id, client_secret))
+
         if response.status_code == 200:
             self.access_token = response.json()['access_token']
             return True
@@ -284,8 +285,8 @@ class ShapewaysOauth2Client():
         content = self._execute_get(self.api_url+order_url, data=json.dumps(order_data))
         return content
 
-    def order_model(self, model_id, material_id, payment_verification_id, first_name, last_name, country, city,
-                    address1, address2, zip_code, phone_number, state=None):
+    def order_model(self, payment_verification_id, first_name, last_name, country, city,
+                    address1, address2, zip_code, phone_number, state=None, items=None, model_id=None, material_id=None):
         """
         Order a model.
 
@@ -294,11 +295,14 @@ class ShapewaysOauth2Client():
         :type payment_verification_id: str
         :return:
         """
-        items = [{
-            'materialId': material_id,
-            'modelId': model_id,
-            'quantity': 1
-        }]
+        if not items:
+            if not (material_id and model_id):
+                raise RuntimeError("Need to provide either Items Array, or ModelID+MaterialID")
+            items = [{
+                'materialId': material_id,
+                'modelId': model_id,
+                'quantity': 1
+            }]
 
         order_data = {
             'items': items,
