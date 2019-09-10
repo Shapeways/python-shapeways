@@ -170,7 +170,7 @@ class ShapewaysOauth2Client():
 
         :return: model information for a single model
         """
-        model_url = MODEL_URL.format(model_id=model_id)
+        model_url = SINGLE_MODEL_URL.format(model_id=model_id)
         content = self._execute_get(self.api_url + model_url)
         return content
 
