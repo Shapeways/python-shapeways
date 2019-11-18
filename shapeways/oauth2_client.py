@@ -21,10 +21,11 @@ class ShapewaysOauth2Client():
 
     def __init__(self, api_url=None):
         self.access_token = None
+        self.refresh_token = None
         if not api_url:
             self.api_url = 'https://api.shapeways.com'
 
-    # Oauth2 authentication method
+    # Oauth2 authentication method  Y11nbjdGeBpIVtUpPvdH
     def authenticate(self, client_id, client_secret):
         """
         Authenticate your application and retrieve a bearer token
@@ -46,6 +47,52 @@ class ShapewaysOauth2Client():
         print("Error: status code " + str(response.status_code))
         print(response.content)
         return False
+
+    # Oauth2 authentication method  Y11nbjdGeBpIVtUpPvdH
+    def authenticate_authorization_code(self, client_id, client_secret, authorizaion_code='eBGI9tpcMrBZwD9Yguqz'):
+        """
+        Authenticate your application and retrieve a bearer token
+
+        :type client_id: str
+        :type client_secret: str
+        :return: True for success, false for Failure
+        :rtype: bool
+        """
+        auth_post_data = {
+            'grant_type': 'authorization_code',
+            'code': authorizaion_code,
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'redirect_uri': 'oob'
+        }
+
+        response = requests.post(url=self.api_url + AUTH_URL, data=auth_post_data)
+
+        if response.status_code == 200:
+            self.access_token = response.json()['access_token']
+            self.refresh_token = response.json()['refresh_token']
+            return True
+        print("Error: status code " + str(response.status_code))
+        print(response.content)
+        return False
+
+    def refresh_access(self, client_id, client_secret, refresh_token):
+
+        headers = {
+            'Authorization': 'Basic ' + client_secret
+        }
+
+        refresh_post_data = {
+            'grant_type': 'refresh_token',
+            'client_id': client_id,
+            'refresh_token': refresh_token
+        }
+
+        response = requests.post(url=self.api_url + AUTH_URL, headers=headers, data=refresh_post_data)
+        if response.status_code == 200:
+            self.access_token = response.json()['access_token']
+            self.refresh_token = response.json()['refresh_token']
+            return True
 
     # Internal wrapper functions to make endpoint code easier to read and less repetitive
     def _validate_response(self, response):
