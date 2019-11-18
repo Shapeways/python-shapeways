@@ -13,6 +13,9 @@ CART_URL = '/orders/cart/v1'
 ORDERS_URL = '/orders/v1'
 SINGLE_ORDER_URL = '/orders/{order_id}/v1'
 
+HTTP_OK = 200
+HTTP_RATE_LIMITED = 429
+
 
 class ShapewaysOauth2Client():
     """
@@ -40,7 +43,7 @@ class ShapewaysOauth2Client():
 
         response = requests.post(url=self.api_url + AUTH_URL, data=auth_post_data, auth=(client_id, client_secret))
 
-        if response.status_code == 200:
+        if response.status_code == HTTP_OK:
             self.access_token = response.json()['access_token']
             return True
         print("Error: status code " + str(response.status_code))
@@ -53,8 +56,10 @@ class ShapewaysOauth2Client():
         Internal function - validate results
         :rtype: list()
         """
-        if response.status_code != 200:
-            raise RuntimeError("Call threw status {}".format(response.status_code))
+        if response.status_code != HTTP_OK:
+            if response.status_code == HTTP_RATE_LIMITED:
+                raise RuntimeError("Rate Limited: please honor backoff time")
+            return RuntimeError("Error: {}".format(response.status_code))
         content = response.json()
         try:
             if content['result'] == 'success':
