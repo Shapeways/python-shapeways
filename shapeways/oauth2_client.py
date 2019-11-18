@@ -48,7 +48,7 @@ class ShapewaysOauth2Client():
         print(response.content)
         return False
 
-    # Oauth2 authentication method  Y11nbjdGeBpIVtUpPvdH
+    # Oauth2 authentication method
     def authenticate_authorization_code(self, client_id, client_secret, authorizaion_code='eBGI9tpcMrBZwD9Yguqz'):
         """
         Authenticate your application and retrieve a bearer token
@@ -91,7 +91,6 @@ class ShapewaysOauth2Client():
         response = requests.post(url=self.api_url + AUTH_URL, headers=headers, data=refresh_post_data)
         if response.status_code == 200:
             self.access_token = response.json()['access_token']
-            self.refresh_token = response.json()['refresh_token']
             return True
 
     # Internal wrapper functions to make endpoint code easier to read and less repetitive
