@@ -25,7 +25,7 @@ class ShapewaysOauth2Client():
         if not api_url:
             self.api_url = 'https://api.shapeways.com'
 
-    # Oauth2 authentication method  Y11nbjdGeBpIVtUpPvdH
+    # Oauth2 authentication method
     def authenticate(self, client_id, client_secret):
         """
         Authenticate your application and retrieve a bearer token
