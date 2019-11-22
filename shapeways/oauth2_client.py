@@ -14,10 +14,6 @@ CART_URL = '/orders/cart/v1'
 ORDERS_URL = '/orders/v1'
 SINGLE_ORDER_URL = '/orders/{order_id}/v1'
 
-# HTTP status codes
-HTTP_OK = 200
-HTTP_RATE_LIMITED = 429
-
 # Relevant headers
 SW_RATE_LIMIT = "SHAPEWAYS"
 CF_RATE_LIMIT = "CLOUDFLARE"
@@ -68,7 +64,7 @@ class ShapewaysOauth2Client():
 
         response = requests.post(url=self.api_url + AUTH_URL, data=auth_post_data, auth=(client_id, client_secret))
 
-        if response.status_code == HTTP_OK:
+        if response.status_code == requests.codes.ok:
             self.access_token = response.json()['access_token']
             return True
         print("Error: status code " + str(response.status_code))
@@ -90,8 +86,8 @@ class ShapewaysOauth2Client():
         headers = response.headers
 
         # Handle HTTP errors
-        if response.status_code != HTTP_OK:
-            if response.status_code == HTTP_RATE_LIMITED:
+        if response.status_code != requests.codes.ok:
+            if response.status_code == requests.codes.too_many_requests:
                 # We're rate limited
                 rate_limit.is_rate_limited=True
 
