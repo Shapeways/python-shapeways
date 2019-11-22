@@ -2,6 +2,7 @@ import base64
 import json
 import requests
 
+# API URLs
 AUTH_URL = '/oauth2/token'
 MATERIALS_URL = '/materials/v1'
 SINGLE_MATERIAL_URL = '/materials/{material_id}/v1'
@@ -13,8 +14,31 @@ CART_URL = '/orders/cart/v1'
 ORDERS_URL = '/orders/v1'
 SINGLE_ORDER_URL = '/orders/{order_id}/v1'
 
+# HTTP status codes
 HTTP_OK = 200
 HTTP_RATE_LIMITED = 429
+
+# Relevant headers
+SW_RATE_LIMIT = "SHAPEWAYS"
+CF_RATE_LIMIT = "CLOUDFLARE"
+SW_RATE_LIMIT_LIMIT = 'x-ratelimit-limit'
+SW_RATE_LIMIT_REMAINING = 'x-ratelimit-remaining'
+SW_RATE_LIMIT_RETRY = 'x-ratelimit-retry-inseconds'
+SW_RATE_LIMIT_WINDOW = 'x-ratelimit-window-inseconds'
+CF_RATE_LIMIT_RETRY = 'retry-after'
+
+# Constants
+CONTENT_SUCCESS = 'success'
+CONTENT_RATE_LIMIT = 'rate_limiting'
+
+
+class RateLimitingHeaders():
+    def __init__(self, rate_limit_type=None, rate_limit_retry_inseconds=None, rate_limit_remaining=None,
+                 is_rate_limited=None):
+        self.rate_limit_type = rate_limit_type
+        self.rate_limit_retry_inseconds = rate_limit_retry_inseconds
+        self.rate_limit_remaining = rate_limit_remaining
+        self.is_rate_limited = is_rate_limited
 
 
 class ShapewaysOauth2Client():
@@ -37,6 +61,7 @@ class ShapewaysOauth2Client():
         :return: True for success, false for Failure
         :rtype: bool
         """
+
         auth_post_data = {
             'grant_type': 'client_credentials'
         }
@@ -54,20 +79,57 @@ class ShapewaysOauth2Client():
     def _validate_response(self, response):
         """
         Internal function - validate results
-        :rtype: list()
+        :rtype dict()
         """
+
+        # Default values - these will be modified as needed by the rate limiting error handling
+        rate_limit = RateLimitingHeaders(
+            rate_limit_type=SW_RATE_LIMIT,
+            is_rate_limited=False
+        )
+        headers = response.headers
+
+        # Handle HTTP errors
         if response.status_code != HTTP_OK:
             if response.status_code == HTTP_RATE_LIMITED:
-                raise RuntimeError("Rate Limited: please honor backoff time")
-            return RuntimeError("Error: {}".format(response.status_code))
+                # We're rate limited
+                rate_limit.is_rate_limited=True
+
+                if CF_RATE_LIMIT_RETRY in headers.keys():
+                    # Limited by CF - backoff for a number of seconds
+                    rate_limit.rate_limit_type=CF_RATE_LIMIT
+                    rate_limit.rate_limit_remaining=0
+                    rate_limit.rate_limit_retry_inseconds=headers[CF_RATE_LIMIT_RETRY]
+                else:
+                    # Shapeways Rate limiting - stupidly, we move the retryInSeconds entry from the response headers
+                    # to the body.  Dealing with this here.
+                    rate_limit.rate_limit_remaining = 0
+                    rate_limit.rate_limit_retry_inseconds = response.json()['rateLimit']['retryInSeconds']
+
+                return {CONTENT_SUCCESS: False, CONTENT_RATE_LIMIT: rate_limit.__dict__}
+            else:
+                # Generic error
+                content = response.json()
+                content[CONTENT_SUCCESS] = False
+                content[CONTENT_RATE_LIMIT] = rate_limit.__dict__
+                return content
+
+        # No HTTP error - this means that we'll definitey have these headers
+        rate_limit.rate_limit_remaining = headers[SW_RATE_LIMIT_REMAINING]
+        rate_limit.rate_limit_retry_inseconds = headers[SW_RATE_LIMIT_RETRY]
+
         content = response.json()
+        content[CONTENT_RATE_LIMIT] = rate_limit.__dict__
         try:
             if content['result'] == 'success':
+                content[CONTENT_SUCCESS] = True
                 return content
             else:
-                raise RuntimeError(content)
+                content[CONTENT_SUCCESS] = False
+                return content
         except:
-            raise RuntimeError(content)
+            content[CONTENT_SUCCESS] = False
+            return content
 
     def _execute_get(self, url, **params):
         """
@@ -142,7 +204,7 @@ class ShapewaysOauth2Client():
         :rtype: list()
         """
         content = self._execute_get(url=self.api_url + MATERIALS_URL)
-        return content['materials']
+        return content
 
     def get_single_material(self, material_id):
         """
@@ -165,7 +227,7 @@ class ShapewaysOauth2Client():
         :rtype: list()
         """
         content = self._execute_get(url=self.api_url + MODEL_URL + '?page=' + str(page_count))
-        return content['models']
+        return content
 
     def get_single_model(self, model_id):
         """
