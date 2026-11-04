@@ -10,7 +10,7 @@ setup(
     author="Shapeways",
     author_email="api@shapeways.com",
     packages=find_packages(),
-    install_requires=["oauthlib==0.6.0", "requests-oauthlib==0.4.0"],
+    install_requires=["oauthlib==4.0.0", "requests-oauthlib==0.4.0"],
     description="",
     license="MIT",
     url='https://github.com/Shapeways/python-shapeways',
